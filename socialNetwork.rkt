@@ -1,8 +1,8 @@
 #lang racket
 (provide (all-defined-out))
 
-(define (socialNetwork nameRedSocial date encryptFunction decryptFunction)
-  (list nameRedSocial date encryptFunction decryptFunction)
+(define (socialNetwork nameRedSocial date contenido1 contenido2)
+  (list nameRedSocial date contenido1 contenido2)
   )
 
 ;Selector Nombre:
@@ -22,13 +22,13 @@
 ;Selector : 
 ;Dom: Lista x lista
 ;Rec: Lista
-(define (ingresarEncryp encryptFunction)
-  (caddr encryptFunction)
+(define (ingresarEncryp contenido1)
+  (caddr contenido1)
   )
 
 ;Selector : 
 ;Dom: Lista x lista
 ;Rec: Lista
-(define (ingresarDecryp decryptFunction)
-  (cadddr decryptFunction)
+(define (ingresarDecryp contenido2)
+  (cadddr contenido2)
   )
