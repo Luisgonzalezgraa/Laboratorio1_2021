@@ -4,8 +4,8 @@
 (require "socialRegister.rkt")
 
 ;Funcion register: 
-;Dom: stack X string X string
-;Rec: stack
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
 ;Recursion: Natural
 ;Ejemplo de uso:
 (define (register socialNet date name password)
