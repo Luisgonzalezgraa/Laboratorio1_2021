@@ -11,13 +11,13 @@
 (define (register socialNet date name password)
    (if(null? socialNetwork)
       #f 
-      (if (not(estaenlista? socialNet name))
+      (if (not(estaenlista?  socialNet name))
           
           (socialNetwork
           (ingresarNombre socialNet)
           (ingresarFecha socialNet)
-          (concatenar (ingresarEncryp socialNet) (socialRegister (ingresarNombre socialNet) date name password))
-          (concatenar (ingresarDecryp socialNet) (socialRegister (ingresarNombre socialNet) date name password))
+          (concatenar (ingresarEncryp socialNet)(socialRegister (encryptFn2 date)  (encryptFn2 name)  (encryptFn2 password)))
+          (concatenar (ingresarEncryp socialNet)(socialRegister (encryptFn2 date)  (encryptFn2 name)  (encryptFn2 password)))
           )
          
        #f
@@ -27,7 +27,8 @@
   
 )
 
-(define encryptFn (lambda (s) (list->string (reverse (string->list s)))))
+(define encryptFn (lambda (s) (list (list->string (reverse (string->list s))))))
+(define encryptFn2 (lambda (s) (list->string (reverse (string->list s)))))
 
 
 ;Funcion Concatenar: Concatena dos listas
