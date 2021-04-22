@@ -9,26 +9,27 @@
 ;Recursion: Natural
 ;Ejemplo de uso:
 (define (register socialNet date name password)
-   (if(null? socialNetwork)
-      #f 
-      (if (not(estaenlista?  socialNet name))
-          
-          (socialNetwork
-          (ingresarNombre socialNet)
-          (ingresarFecha socialNet)
-          (concatenar (ingresarEncryp socialNet)(socialRegister (encryptFn2 date)  (encryptFn2 name)  (encryptFn2 password)))
-          (concatenar (ingresarEncryp socialNet)(socialRegister (encryptFn2 date)  (encryptFn2 name)  (encryptFn2 password)))
+      (if (not(list?  (cadddr socialNet) ))
+           (socialNetwork
+            (getNombre socialNet)
+            (getFecha socialNet)
+            (concatenar (list )(socialRegister ((getEncryp socialNet) date)  ((getEncryp socialNet) name)  ((getEncryp socialNet) password)))
+            (concatenar (list )(socialRegister  date  name password))
+            )
+           (if(estaenlista? (cadddr socialNet) name)
+              (display "Usuario ya registrado, intente con otro nombre...")
+              (socialNetwork
+            (getNombre socialNet)
+            (getFecha socialNet)
+            (concatenar (getEncryp socialNet)(socialRegister (encryptFn date)  (encryptFn name)  (encryptFn password)))
+            (concatenar (getDecryp socialNet)(socialRegister  date  name password))
+               )
+              )
           )
-         
-       #f
-        
-      )
-  )
-  
 )
 
-(define encryptFn (lambda (s) (list (list->string (reverse (string->list s))))))
-(define encryptFn2 (lambda (s) (list->string (reverse (string->list s)))))
+(define encryptFn (lambda (s) (list->string (reverse (string->list s)))))
+
 
 
 ;Funcion Concatenar: Concatena dos listas
