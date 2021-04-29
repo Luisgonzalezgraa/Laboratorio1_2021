@@ -1,17 +1,17 @@
 #lang racket
 (provide (all-defined-out))
 
-(define (socialRegister nameRedSocial date name password)
-  (list nameRedSocial date name password)
+(define (socialRegister encrypt date name password)
+  (list encrypt date name password)
   )
 
-;Selector Nombre:
+
+;Selector : 
 ;Dom: Lista x lista
 ;Rec: Lista
-(define (ingresarNameSocial nameRedSocial)
-  (car nameRedSocial)
+(define (getEncry encrypt)
+  (car encrypt)
   )
-
 
 ;Selector : 
 ;Dom: Lista x lista

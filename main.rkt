@@ -2,6 +2,7 @@
 (provide (all-defined-out))
 (require "socialNetwork.rkt")
 (require "socialRegister.rkt")
+(require "date.rkt")
 
 ;Funcion register: 
 ;Dom: socialNetworw X string X string
@@ -13,23 +14,20 @@
            (socialNetwork
             (getNombre socialNet)
             (getFecha socialNet)
-            (concatenar (list )(socialRegister ((getEncryp socialNet) date)  ((getEncryp socialNet) name)  ((getEncryp socialNet) password)))
-            (concatenar (list )(socialRegister  date  name password))
+            (socialRegister (getEncryp socialNet) (reverse date) ((getEncryp socialNet) name) ((getEncryp socialNet) password))
+            (socialRegister (getDecryp socialNet) date  name password)
             )
            (if(estaenlista? (cadddr socialNet) name)
               (display "Usuario ya registrado, intente con otro nombre...")
               (socialNetwork
             (getNombre socialNet)
             (getFecha socialNet)
-            (concatenar (getEncryp socialNet)(socialRegister (encryptFn date)  (encryptFn name)  (encryptFn password)))
-            (concatenar (getDecryp socialNet)(socialRegister  date  name password))
+            (concatenar (getEncryp socialNet)(socialRegister "" (reverse date)  (encryptFn name)  (encryptFn password)))
+            (concatenar (getDecryp socialNet)(socialRegister  "" date  name password))
                )
               )
           )
 )
-
-(define encryptFn (lambda (s) (list->string (reverse (string->list s)))))
-
 
 
 ;Funcion Concatenar: Concatena dos listas
@@ -58,3 +56,4 @@
           )
       )
   )
+(define encryptFn (lambda (s) (list->string (reverse (string->list s)))))
