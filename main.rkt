@@ -30,6 +30,35 @@
 )
 
 
+
+(define (login socialNet name contrasenia operation)
+   (if (and(estaenlista? (cadddr socialNet) name) (estaenlista? (cadddr socialNet) contrasenia))      
+        (lambda(fecha) (lambda(contenido) (lambda (usuario)
+                                                      ((((operation socialNet) fecha) name contrasenia) contenido usuario))))
+       
+       
+      (lambda(fecha)(lambda(id) (lambda(pregunta) (lambda (etiqueta)
+                                                      ((((operation socialNet) fecha)null null null) pregunta etiqueta)))))
+      )
+  )
+
+
+(define post(lambda(socialNet) (lambda(date)
+               (lambda (name password)
+              (lambda (content users)
+                (if(null? name)
+                   #f
+                (socialNetwork
+                 (getNombre socialNet)
+                 (getFecha socialNet)
+                 (concatenar(getEncryp socialNet)(list (reverse date) ((car(caddr socialNet)) name) ((car(caddr socialNet))password) ((car(caddr socialNet)) content) ((car(caddr socialNet))users)))
+                 (concatenar(getDecryp socialNet)(list date name password content users))))
+              ))))
+
+
+  )
+
+
 ;Funcion Concatenar: Concatena dos listas
 ;Dom: Lista x lista
 ;Rec: Lista
