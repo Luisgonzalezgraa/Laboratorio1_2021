@@ -2,6 +2,7 @@
 (provide (all-defined-out))
 (require "socialNetwork.rkt")
 (require "socialRegister.rkt")
+(require "usuarioActivo.rkt")
 (require "date.rkt")
 
 ;Funcion register: 
@@ -40,8 +41,11 @@
         (operation (socialNetwork
                     (getNombre socialNet)
                     (getFecha socialNet)
-                    (concatenar(remove ((car(getEncryp socialNet)) contrasenia) (remove ((car(getEncryp socialNet)) name) (getEncryp socialNet)))(list ((car(getEncryp socialNet)) " Usuario Activo: ")((car(getEncryp socialNet)) name) ))
-                    (concatenar(remove contrasenia (remove name (getDecryp socialNet)))(list " Usuario Activo: " name ))
+                    (concatenar (remove ((car(getEncryp socialNet)) contrasenia) (remove ((car(getEncryp socialNet)) name) (getEncryp socialNet))) (list
+                                                                                                                                                  ((car(getEncryp socialNet)) name)
+                                                                                                                                                  ((car(getEncryp socialNet)) " Usuario Activo: ")
+                                                                                                                                                  ))
+                    (concatenar(remove contrasenia (remove name (getDecryp socialNet)))(list  name " Usuario Activo: " ))
                     ))
        
        
@@ -59,15 +63,19 @@
               (lambda (content . users)
                 (if(null? socialNet)
                    (display "Nombre o Contraseña incorrectas.")
-
                 (socialNetwork
                  (getNombre socialNet)
                  (getFecha socialNet)
-                 (concatenar (getEncryp socialNet) (list (list  date ((car(getEncryp socialNet)) content)  (map (car(getEncryp socialNet)) users) )))
-                 (concatenar(getDecryp socialNet)(list (list date content users)))))
-              )))
-
-
+                 (concatenar (remove ((car(getEncryp socialNet)) " Usuario Activo: ") (remove (cadr (reverse (getEncryp socialNet))) (getEncryp socialNet))) (list (usuarioActivo
+                                                                     (getMarcado (reverse (getEncryp socialNet)))
+                                                                     (getUsuario (reverse (getEncryp socialNet)))
+                                                                     (list (map (car(getEncryp socialNet)) date) ((car(getEncryp socialNet)) content) (map (car(getEncryp socialNet)) users) )
+                                                           )))
+                 (concatenar (remove " Usuario Activo: " (remove (cadr (reverse(getDecryp socialNet))) (getDecryp socialNet))) (list (usuarioActivo
+                                                                     (getMarcado (reverse (getDecryp socialNet)))
+                                                                     (getUsuario (reverse (getDecryp socialNet)))
+                                                                     (list  date content users )  ))) 
+              )))))
   )
 
 ;Funcion Concatenar: Concatena dos listas
