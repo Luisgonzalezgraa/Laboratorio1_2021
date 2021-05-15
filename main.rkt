@@ -14,7 +14,7 @@
            (socialNetwork
             (getNombre socialNet)
             (getFecha socialNet)
-            (socialRegister (getEncryp socialNet) (reverse date) ((getEncryp socialNet) name) ((getEncryp socialNet) password))
+            (socialRegister (getEncryp socialNet) (map (getEncryp socialNet) date) ((getEncryp socialNet) name) ((getEncryp socialNet) password))
             (socialRegister (getDecryp socialNet) date  name password)
             )
            (if(estaenlista? (cadddr socialNet) name)
@@ -22,42 +22,53 @@
               (socialNetwork
             (getNombre socialNet)
             (getFecha socialNet)
-            (concatenar (getEncryp socialNet)(socialRegister "" (reverse date)  (encryptFn name)  (encryptFn password)))
+            (concatenar (getEncryp socialNet)(socialRegister "" (map (car(getEncryp socialNet)) date)  ((car(getEncryp socialNet)) name)  ((car(getEncryp socialNet)) password)))
             (concatenar (getDecryp socialNet)(socialRegister  "" date  name password))
                )
               )
           )
 )
 
-
+;Funcion : 
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
+;Recursion: Natural
+;Ejemplo de uso:
 
 (define (login socialNet name contrasenia operation)
-   (if (and(estaenlista? (cadddr socialNet) name) (estaenlista? (cadddr socialNet) contrasenia))      
-        (lambda(fecha) (lambda(contenido) (lambda (usuario)
-                                                      ((((operation socialNet) fecha) name contrasenia) contenido usuario))))
+   (if (and(estaenlista? (cadddr socialNet) name) (estaenlista? (cadddr socialNet) contrasenia))
+        (operation (socialNetwork
+                    (getNombre socialNet)
+                    (getFecha socialNet)
+                    (concatenar(remove ((car(getEncryp socialNet)) contrasenia) (remove ((car(getEncryp socialNet)) name) (getEncryp socialNet)))(list ((car(getEncryp socialNet)) " Usuario Activo: ")((car(getEncryp socialNet)) name) ))
+                    (concatenar(remove contrasenia (remove name (getDecryp socialNet)))(list " Usuario Activo: " name ))
+                    ))
        
        
-      (lambda(fecha)(lambda(id) (lambda(pregunta) (lambda (etiqueta)
-                                                      ((((operation socialNet) fecha)null null null) pregunta etiqueta)))))
+      (operation null)
       )
   )
-
+;Funcion : 
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
+;Recursion: Natural
+;Ejemplo de uso:(define eFB ((((login FB "usuario1" "pass1" post)(date 21 3 2020))"mi primer post") "user1"))
 
 (define post(lambda(socialNet) (lambda(date)
-               (lambda (name password)
-              (lambda (content users)
-                (if(null? name)
-                   #f
+               
+              (lambda (content . users)
+                (if(null? socialNet)
+                   (display "Nombre o Contraseña incorrectas.")
+
                 (socialNetwork
                  (getNombre socialNet)
                  (getFecha socialNet)
-                 (concatenar(getEncryp socialNet)(list (reverse date) ((car(caddr socialNet)) name) ((car(caddr socialNet))password) ((car(caddr socialNet)) content) ((car(caddr socialNet))users)))
-                 (concatenar(getDecryp socialNet)(list date name password content users))))
-              ))))
+                 (concatenar (getEncryp socialNet) (list (list  date ((car(getEncryp socialNet)) content)  (map (car(getEncryp socialNet)) users) )))
+                 (concatenar(getDecryp socialNet)(list (list date content users)))))
+              )))
 
 
   )
-
 
 ;Funcion Concatenar: Concatena dos listas
 ;Dom: Lista x lista
@@ -85,4 +96,13 @@
           )
       )
   )
+;Funcion : 
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
+;Recursion: Natural
+;Ejemplo de uso:
 (define encryptFn (lambda (s) (list->string (reverse (string->list s)))))
+
+
+
+(define decryptFn(lambda(s) encryptFn (encryptFn s)))

@@ -2,7 +2,7 @@
 (provide (all-defined-out))
 
 (define (date day month year)
-  (list day month year)
+  (list (number->string day)"-"(number->string month)"-"(number->string year))
  )
 
 ;Selector : 
