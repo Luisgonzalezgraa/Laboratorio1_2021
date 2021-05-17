@@ -1,34 +1,34 @@
 #lang racket
 (provide (all-defined-out))
 
-(define (socialRegister encrypt date name password)
-  (list encrypt date name password)
+(define (socialRegister date name password)
+  (list (list date name password))
+  )
+
+;Selector : 
+;Dom: Lista x lista
+;Rec: Lista
+(define (getPrimerU primerU)
+  (car (car primerU))
   )
 
 
 ;Selector : 
 ;Dom: Lista x lista
 ;Rec: Lista
-(define (getEncry encrypt)
-  (car encrypt)
+(define (getDate date)
+  (car date)
+  )
+;Selector : 
+;Dom: Lista x lista
+;Rec: Lista
+(define (getName name)
+  (cadr name)
   )
 
 ;Selector : 
 ;Dom: Lista x lista
 ;Rec: Lista
-(define (ingresarDate date)
-  (cadr date)
-  )
-;Selector : 
-;Dom: Lista x lista
-;Rec: Lista
-(define (ingresarName name)
-  (caddr name)
-  )
-
-;Selector : 
-;Dom: Lista x lista
-;Rec: Lista
-(define (ingresarPassword password)
-  (cadddr password)
+(define (getPassword password)
+  (caddr password)
   )
