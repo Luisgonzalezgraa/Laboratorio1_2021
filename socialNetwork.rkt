@@ -63,6 +63,6 @@
 ;Dom: Lista x lista
 ;Rec: Lista
 (define (getShare share)
-  (cadddr(cdddr(cdr share)))
+  (cadddr(cdddr(cddr share)))
   )
 

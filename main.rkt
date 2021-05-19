@@ -18,10 +18,10 @@
             (getEncryp socialNet) 
             (getDecryp socialNet)
             (socialRegister (map(getEncryp socialNet) date) ((getEncryp socialNet)name) ((getEncryp socialNet)password))
-            ""
-            ""
-            ""
-            "")
+            (getUsuarioActivo socialNet)
+            (getPosteo socialNet)
+            (getFollow socialNet)
+            (getShare socialNet))
            (if(estaenlistadelistas?  (getUsuarios socialNet) ((getEncryp socialNet)name))
               (display "Usuario ya registrado, intente con otro nombre...")
               (socialNetwork
@@ -30,10 +30,10 @@
             (getEncryp socialNet)
             (getDecryp socialNet)
             (concatenar(getUsuarios socialNet)(socialRegister (map(getEncryp socialNet) date) ((getEncryp socialNet)name) ((getEncryp socialNet)password)))
-            ""
-            ""
-            ""
-            "")
+            (getUsuarioActivo socialNet)
+            (getPosteo socialNet)
+            (getFollow socialNet)
+            (getShare socialNet))
               )
           )
 )
@@ -51,11 +51,11 @@
                     (getFecha socialNet)
                     (getEncryp socialNet)
                     (getDecryp socialNet)
-                    (remove (obtenerposicion (getUsuarios socialNet) ((getEncryp socialNet)name) ((getEncryp socialNet) contrasenia)) (getUsuarios socialNet))
+                    (getUsuarios socialNet)
                     (list ((getEncryp socialNet)"Usuario activo: ") ((getEncryp socialNet)name))
-                    ""
-                    ""
-                    ""
+                    (getPosteo socialNet)
+                    (getFollow socialNet)
+                    (getShare socialNet)
                     ))
        
        
@@ -66,7 +66,7 @@
 ;Dom: socialNetworw X string X string
 ;Rec: socialNetworw
 ;Recursion: Natural
-;Ejemplo de uso:(define eFB ((((login FB "usuario1" "pass1" post)(date 21 3 2020))"mi primer post") "user1"))
+;Ejemplo de uso:(define eFB (((login FB "usuario1" "pass1" post)(date 21 3 2020))"mi primer post" "user1"))
 
 (define post(lambda(socialNet) (lambda(date)
                
@@ -81,12 +81,44 @@
                      (getDecryp socialNet)
                      (getUsuarios socialNet)
                      (getUsuarioActivo socialNet)
-                     (list(list (cadr(getUsuarioActivo socialNet)) (map(getEncryp socialNet) date) ((getEncryp socialNet) content) (map(getEncryp socialNet) users)))
-                     ""
-                     "")
+                     (concatenar (getPosteo socialNet)(list(list (cadr(getUsuarioActivo socialNet)) (map(getEncryp socialNet) date) ((getEncryp socialNet) content) (map(getEncryp socialNet) users))))
+                     (getFollow socialNet)
+                     (getShare socialNet)
+                     )
                      (display "Al usuario dirigido el post no existe")
               )))))
   )
+;Funcion : 
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
+;Recursion: Natural
+;Ejemplo de uso:(define eFB (((login FB "usuario1" "pass1" post)(date 21 3 2020))"mi primer post" "user1"))
+
+(define follow(lambda(socialNet) (lambda(date)
+              (lambda (user)
+                (if(null? socialNet)
+                   (display "Nombre o Contraseña incorrectas.")
+                   (if(equal?(cadr(getUsuarioActivo socialNet)) ((getEncryp socialNet) user))
+                      (display "No se puede seguir a si mismo")
+                   (if(estaenlistadelistas? (getUsuarios socialNet) ((getEncryp socialNet) user))
+                    (socialNetwork
+                     (getNombre socialNet)
+                     (getFecha socialNet)
+                     (getEncryp socialNet)
+                     (getDecryp socialNet)
+                     (getUsuarios socialNet)
+                     (getUsuarioActivo socialNet)
+                     (getPosteo socialNet)
+                     (concatenar(getFollow socialNet)(list(list (cadr(getUsuarioActivo socialNet)) "->" ((getEncryp socialNet) user))))
+                     (getShare socialNet))
+                     (display "El usuario que quiere seguir no existe.")
+              ))))))
+  )
+
+
+
+
+
 
 ;Funcion Concatenar: Concatena dos listas
 ;Dom: Lista x lista
