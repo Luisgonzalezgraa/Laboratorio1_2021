@@ -5,12 +5,7 @@
   (list (list date name password))
   )
 
-;Selector : 
-;Dom: Lista x lista
-;Rec: Lista
-(define (getPrimerU primerU)
-  (car (car primerU))
-  )
+
 
 
 ;Selector : 
