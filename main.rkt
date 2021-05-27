@@ -82,7 +82,7 @@
                      (getEncryp socialNet)
                      (getDecryp socialNet)
                      (getUsuarios socialNet)
-                     (list(car(getUsuarioActivo socialNet)))
+                     (list(car(getUsuarioActivo socialNet))null)
                      (concatenar (getPosteo socialNet)(list(posteo +1 (cadr(getUsuarioActivo socialNet)) (mi-map(getEncryp socialNet) date) ((getEncryp socialNet) content) (mi-map(getEncryp socialNet) users))))
                      (getFollow socialNet)
                      (getShare socialNet)
@@ -189,6 +189,40 @@
   )
  )
 
+;Funcion : 
+;Dom: socialNetworw X string X string
+;Rec: socialNetworw
+;Recursion: Natural
+;Ejemplo de uso:
+(define comment (lambda(socialNet)
+                   (lambda(date)
+                     (lambda(postId)
+                       (lambda(content)
+                         (if(null? socialNet)
+                            (display "Nombre o Contraseña incorrectas.")
+                            
+                      (if(estaid? (getPosteo socialNet) postId)
+                    (socialNetwork
+                     (getNombre socialNet)
+                     (getFecha socialNet)
+                     (getEncryp socialNet)
+                     (getDecryp socialNet)
+                     (getUsuarios socialNet)
+                     (list(car(getUsuarioActivo socialNet)) null)
+                     (concatenar (getPosteo socialNet)(list (list (mi-map(getEncryp socialNet) date) ((getEncryp socialNet)"Comentario: ") (number->string postId) ((getEncryp socialNet) content) )))
+                     (getFollow socialNet)
+                     (getShare socialNet)
+                     )
+                    (display "El id del post no existe")
+                    )
+                          )
+                          )
+                         )
+                       )
+                     )
+  )
+
+
 
 ;Funcion : 
 ;Dom: socialNetworw X string X string
@@ -269,15 +303,21 @@
 ;Ejemplo de uso:
 (define (recorrerListadeListasPost lista socialNet)
                  (if(null? lista) ""
-                   (string-append  "\n    USUARIO QUE PUBLICO:  "((getDecryp socialNet) (getNameA (car lista)))
+                    (if(equal? (cadr (car lista)) ((getEncryp socialNet)"Comentario: "))
+                     (string-append"\n    COMENTARIO, ID: " ((getDecryp socialNet) (cadddr (car lista))) ", " (caddr (car lista))
+                                   "\n      Fecha de publicacion: "(recorrerLista (mi-map (getDecryp socialNet) (car (car lista))))
+                                   (recorrerListadeListasPost (cdr lista) socialNet)) 
+                     (string-append"\n    USUARIO QUE PUBLICO:  "((getDecryp socialNet) (getNameA (car lista)))
                                    "\n      Fecha de publicacion: " (recorrerLista (mi-map (getDecryp socialNet) (getDateP (car lista))))
                                    "\n      Publicacion: " ((getDecryp socialNet) (getContent (car lista)))
                                    "\n      Usuarios dirigidos el post: "(recorrerLista (mi-map (getDecryp socialNet) (getUsers (car lista)))) 
                                    
                                    (recorrerListadeListasPost (cdr lista) socialNet))
+                   
                     )
                  )
-
+  )
+     
 
 ;Funcion : 
 ;Dom: socialNetworw X string X string
@@ -375,6 +415,9 @@
           )
       )
   )
+
+
+
 ;Funcion comparardoslistas: filtra una lista de listas para obtener una lista con los usuarios registrados en la plataforma
 ;Dom: Lista x lista
 ;Rec: Lista
